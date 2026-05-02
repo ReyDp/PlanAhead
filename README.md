@@ -123,8 +123,8 @@ project/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+[git clone https://github.com/ReyDp/PlanAhead.git]
+cd PlanAhead
 ```
 
 ---
