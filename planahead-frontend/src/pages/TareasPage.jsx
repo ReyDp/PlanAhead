@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
+import SkeletonCard from '../components/SkeletonCard.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { apiFetch } from '../lib/api.js';
 import { calcularUrgencia, formatDate, toDateInputValue } from '../lib/dates.js';
@@ -154,6 +155,11 @@ function TareasPage() {
     }
   }
 
+  function clearFilters() {
+    setEstado('');
+    setMateriaId('');
+  }
+
   return (
     <div className={layout.page}>
       <Navbar />
@@ -185,10 +191,27 @@ function TareasPage() {
           </select>
         </section>
 
-        {isLoading && <p className={layout.loading}>Cargando tareas...</p>}
+        {isLoading && (
+          <div className={styles.skeletonList}>
+            <SkeletonCard height="70px" />
+            <SkeletonCard height="70px" />
+            <SkeletonCard height="70px" />
+            <SkeletonCard height="70px" />
+            <SkeletonCard height="70px" />
+          </div>
+        )}
         {error && <p className={layout.error}>{error}</p>}
 
-        {!isLoading && (
+        {!isLoading && filteredTasks.length === 0 && (
+          <div className={styles.emptyState}>
+            <p>No hay tareas que coincidan con los filtros</p>
+            <button type="button" onClick={clearFilters}>
+              Limpiar filtros
+            </button>
+          </div>
+        )}
+
+        {!isLoading && filteredTasks.length > 0 && (
           <ul className={styles.taskList}>
             {filteredTasks.map((tarea) => {
               const { urgencia } = calcularUrgencia(tarea.fechaMeta);

@@ -4,6 +4,69 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.skeletonLayout {
+  display: grid;
+  gap: 18px;
+}
+
+.skeletonGroup {
+  display: grid;
+  gap: 12px;
+}
+
+.errorState {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  display: grid;
+  justify-items: center;
+  margin: 32px auto;
+  max-width: 420px;
+  padding: 28px;
+  text-align: center;
+}
+
+.errorState span {
+  color: #f97316;
+  font-size: 2rem;
+}
+
+.errorState h2 {
+  color: #1e293b;
+  font-size: 1.1rem;
+  margin: 8px 0 16px;
+}
+
+.errorState button {
+  background: #1a56db;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+.inlineError {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #b42318;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+}
+
+.successEmpty {
+  background: #ecfdf5;
+  border: 1px solid #057a55;
+  border-radius: 8px;
+  color: #057a55;
+  font-weight: 800;
+  padding: 14px;
+}
+
 .section {
   background: #ffffff;
   border: 1px solid #e2e8f0;

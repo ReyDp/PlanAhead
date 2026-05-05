@@ -35,6 +35,40 @@
   padding: 0;
 }
 
+.skeletonList {
+  display: grid;
+  gap: 12px;
+}
+
+.emptyState {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  padding: 28px;
+  text-align: center;
+}
+
+.emptyState p {
+  color: #64748b;
+  font-weight: 800;
+  margin: 0;
+}
+
+.emptyState button {
+  background: #1a56db;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 0 14px;
+}
+
 .taskCard {
   align-items: center;
   background: #ffffff;
@@ -146,8 +180,12 @@
 }
 
 .formError {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
   color: #b42318;
   margin: 0;
+  padding: 10px 12px;
 }
 
 .modalActions {

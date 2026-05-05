@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Navbar from '../components/Navbar.jsx';
+import SkeletonCard from '../components/SkeletonCard.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { apiFetch } from '../lib/api.js';
 import { formatDate } from '../lib/dates.js';
@@ -18,12 +19,22 @@ function DashboardPage() {
   const [dashboard, setDashboard] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
   const [updatingTaskId, setUpdatingTaskId] = useState(null);
 
-  async function loadDashboard() {
+  async function fetchDashboard() {
     setError('');
-    const data = await apiFetch('/api/dashboard', {}, token);
-    setDashboard(data);
+    setActionError('');
+    setIsLoading(true);
+
+    try {
+      const data = await apiFetch('/api/dashboard', {}, token);
+      setDashboard(data);
+    } catch (loadError) {
+      setError(loadError.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -55,8 +66,14 @@ function DashboardPage() {
   }, [token]);
 
   async function completeTask(taskId) {
+    const previousDashboard = dashboard;
+
     setUpdatingTaskId(taskId);
-    setError('');
+    setActionError('');
+    setDashboard((previousData) => ({
+      ...previousData,
+      tareasDelDia: previousData.tareasDelDia.filter((tarea) => tarea.id !== taskId),
+    }));
 
     try {
       await apiFetch(
@@ -67,9 +84,9 @@ function DashboardPage() {
         },
         token
       );
-      await loadDashboard();
     } catch (updateError) {
-      setError(updateError.message);
+      setDashboard(previousDashboard);
+      setActionError(updateError.message);
     } finally {
       setUpdatingTaskId(null);
     }
@@ -86,10 +103,36 @@ function DashboardPage() {
           </div>
         </header>
 
-        {isLoading && <p className={layout.loading}>Cargando dashboard...</p>}
-        {error && <p className={layout.error}>{error}</p>}
+        {isLoading && (
+          <div className={styles.skeletonLayout}>
+            <SkeletonCard height="40px" />
+            <div className={styles.skeletonGroup}>
+              <SkeletonCard height="80px" />
+              <SkeletonCard height="80px" />
+              <SkeletonCard height="80px" />
+            </div>
+            <div className={styles.skeletonGroup}>
+              <SkeletonCard height="60px" />
+              <SkeletonCard height="60px" />
+              <SkeletonCard height="60px" />
+              <SkeletonCard height="60px" />
+              <SkeletonCard height="60px" />
+            </div>
+          </div>
+        )}
 
-        {!isLoading && dashboard && (
+        {!isLoading && error && (
+          <div className={styles.errorState}>
+            <span aria-hidden="true">⚠</span>
+            <h2>No se pudo cargar el dashboard</h2>
+            <button type="button" onClick={fetchDashboard}>
+              Reintentar
+            </button>
+          </div>
+        )}
+        {actionError && <p className={styles.inlineError}>{actionError}</p>}
+
+        {!isLoading && !error && dashboard && (
           <div className={styles.grid}>
             <section className={styles.section}>
               <div className={styles.sectionHeader}>
@@ -98,7 +141,7 @@ function DashboardPage() {
               </div>
 
               {dashboard.alertas.length === 0 ? (
-                <p className={layout.empty}>No hay alertas criticas o altas.</p>
+                <div className={styles.successEmpty}>✓ Estás al día — no tienes alertas activas</div>
               ) : (
                 <ul className={styles.list}>
                   {dashboard.alertas.map((alerta) => (
