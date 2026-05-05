@@ -80,75 +80,96 @@ function LoginPage() {
   }
 
   return (
-    <main className={styles.page}>
-      <section className={styles.panel}>
-        <div className={styles.header}>
-          <p className={styles.brand}>PlanAhead</p>
-          <h1>{isRegisterMode ? 'Crear cuenta' : 'Iniciar sesion'}</h1>
-        </div>
+    <main className={styles.container}>
+      <div className={styles.brandPanel}>
+        <h1>PlanAhead</h1>
+        <p className={styles.tagline}>
+          Organiza tu semestre.
+          <br />
+          Cumple tus metas.
+        </p>
+        <ul className={styles.features}>
+          <li>✓ Tareas con fecha meta y fecha límite</li>
+          <li>✓ Alertas inteligentes de vencimiento</li>
+          <li>✓ Dashboard con prioridades del día</li>
+          <li>✓ Seguimiento de progreso académico</li>
+        </ul>
+      </div>
 
-        <div className={styles.switcher} role="tablist" aria-label="Modo de acceso">
-          <button
-            className={mode === MODES.LOGIN ? styles.activeTab : styles.tab}
-            type="button"
-            onClick={() => setMode(MODES.LOGIN)}
-          >
-            Login
-          </button>
-          <button
-            className={mode === MODES.REGISTER ? styles.activeTab : styles.tab}
-            type="button"
-            onClick={() => setMode(MODES.REGISTER)}
-          >
-            Registro
-          </button>
-        </div>
+      <section className={styles.formPanel}>
+        <div className={styles.panel}>
+          <div className={styles.header}>
+            <h2>{isRegisterMode ? 'Crear cuenta' : 'Iniciar sesión'}</h2>
+            <p>{isRegisterMode ? 'Regístrate para comenzar.' : 'Ingresa a tu agenda académica.'}</p>
+          </div>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
-          {isRegisterMode && (
+          <div className={styles.switcher} role="tablist" aria-label="Modo de acceso">
+            <button
+              className={mode === MODES.LOGIN ? styles.activeTab : styles.tab}
+              type="button"
+              onClick={() => setMode(MODES.LOGIN)}
+            >
+              Login
+            </button>
+            <button
+              className={mode === MODES.REGISTER ? styles.activeTab : styles.tab}
+              type="button"
+              onClick={() => setMode(MODES.REGISTER)}
+            >
+              Registro
+            </button>
+          </div>
+
+          <div className={styles.demoHint}>
+            <strong>Demo:</strong> carlos@demo.com / demo1234
+          </div>
+
+          <form className={styles.form} onSubmit={handleSubmit}>
+            {isRegisterMode && (
+              <label className={styles.field}>
+                Nombre
+                <input
+                  name="nombre"
+                  type="text"
+                  value={form.nombre}
+                  onChange={updateField}
+                  autoComplete="name"
+                  required
+                />
+              </label>
+            )}
+
             <label className={styles.field}>
-              Nombre
+              Email
               <input
-                name="nombre"
-                type="text"
-                value={form.nombre}
+                name="email"
+                type="email"
+                value={form.email}
                 onChange={updateField}
-                autoComplete="name"
+                autoComplete="email"
                 required
               />
             </label>
-          )}
 
-          <label className={styles.field}>
-            Email
-            <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={updateField}
-              autoComplete="email"
-              required
-            />
-          </label>
+            <label className={styles.field}>
+              Password
+              <input
+                name="password"
+                type="password"
+                value={form.password}
+                onChange={updateField}
+                autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
+                required
+              />
+            </label>
 
-          <label className={styles.field}>
-            Password
-            <input
-              name="password"
-              type="password"
-              value={form.password}
-              onChange={updateField}
-              autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
-              required
-            />
-          </label>
+            {error && <p className={styles.error}>{error}</p>}
 
-          {error && <p className={styles.error}>{error}</p>}
-
-          <button className={styles.submitButton} type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Enviando...' : isRegisterMode ? 'Registrarme' : 'Entrar'}
-          </button>
-        </form>
+            <button className={styles.submitBtn} type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Ingresando...' : isRegisterMode ? 'Crear cuenta' : 'Iniciar sesión'}
+            </button>
+          </form>
+        </div>
       </section>
     </main>
   );
