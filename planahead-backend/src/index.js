@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth');
 const materiasRoutes = require('./routes/materias');
 const tareasRoutes = require('./routes/tareas');
 const dashboardRoutes = require('./routes/dashboard');
+const calendarioRoutes = require('./routes/calendario');
+const metasRoutes = require('./routes/metas');
 
 const app = express();
 
@@ -16,6 +18,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/materias', materiasRoutes);
 app.use('/api/tareas', tareasRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/calendario', calendarioRoutes);
+app.use('/api/metas', metasRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.status || err.statusCode || 500;
