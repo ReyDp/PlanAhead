@@ -1,35 +1,40 @@
-.primaryButton,
-.modalActions button[type='submit'] {
-  background: #1a56db;
-  border: 0;
-  border-radius: 8px;
-  color: #ffffff;
-  cursor: pointer;
-  font-weight: 800;
-  min-height: 42px;
-  padding: 0 16px;
+.toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 .filters {
   display: flex;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 1rem;
 }
 
-.filters select,
-.modal input,
-.modal select,
-.modal textarea {
-  border: 1px solid #cbd5e1;
+.filters select {
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   color: #1e293b;
-  min-height: 42px;
-  padding: 0 12px;
+  font-size: 0.9rem;
+  min-height: 40px;
+  padding: 0.5rem 1rem;
+}
+
+.btnNueva {
+  background: #1a56db;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+}
+
+.btnNueva:hover {
+  background: #1649c0;
 }
 
 .taskList {
-  display: grid;
-  gap: 12px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -69,48 +74,55 @@
   padding: 0 14px;
 }
 
-.taskCard {
+.tareaCard {
   align-items: center;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
   display: flex;
-  gap: 16px;
   justify-content: space-between;
-  padding: 16px;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.25rem;
 }
 
-.taskCard h2 {
-  font-size: 1rem;
-  margin: 0 0 7px;
-}
-
-.taskCard p {
+.tareaLeft {
   align-items: center;
-  color: #64748b;
   display: flex;
-  gap: 7px;
-  margin: 0;
+  min-width: 0;
 }
 
-.taskCard p span {
-  border-radius: 999px;
+.materiaPoint {
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
   height: 10px;
+  margin-right: 0.75rem;
   width: 10px;
 }
 
-.taskActions {
+.tareaTitulo {
+  color: #1e293b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tareaMeta {
+  color: #64748b;
+  font-size: 0.82rem;
+  margin: 0.25rem 0 0;
+}
+
+.tareaRight {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.6rem;
   justify-content: flex-end;
 }
 
-.taskActions button,
-.modalActions button {
+.tareaRight button {
   background: #ffffff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   color: #1e293b;
   cursor: pointer;
@@ -119,23 +131,42 @@
   padding: 0 12px;
 }
 
-.badge,
-.state {
+.estadoSelect {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #1e293b;
+  font-size: 0.85rem;
+  min-height: 36px;
+  padding: 0 10px;
+}
+
+.badge {
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 800;
   padding: 5px 8px;
 }
 
-.state {
-  background: #eaf1ff;
-  color: #1a56db;
+.CRITICA {
+  background: #fef2f2;
+  color: #dc2626;
 }
 
-.CRITICA { background: #fee2e2; color: #b42318; }
-.ALTA { background: #ffedd5; color: #c2410c; }
-.MEDIA { background: #fef3c7; color: #92400e; }
-.BAJA { background: #dcfce7; color: #166534; }
+.ALTA {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.MEDIA {
+  background: #fefce8;
+  color: #ca8a04;
+}
+
+.BAJA {
+  background: #f0fdf4;
+  color: #16a34a;
+}
 
 .modalBackdrop {
   align-items: center;
@@ -145,6 +176,7 @@
   justify-content: center;
   padding: 20px;
   position: fixed;
+  z-index: 200;
 }
 
 .modal {
@@ -168,6 +200,16 @@
   gap: 7px;
 }
 
+.modal input,
+.modal select,
+.modal textarea {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #1e293b;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
 .modal textarea {
   padding: 10px 12px;
   resize: vertical;
@@ -177,6 +219,12 @@
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(2, 1fr);
+}
+
+.modalError {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
 }
 
 .formError {
@@ -194,15 +242,49 @@
   justify-content: flex-end;
 }
 
+.modalActions button {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #1e293b;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 36px;
+  padding: 0 12px;
+}
+
+.modalActions button[type='submit'] {
+  background: #1a56db;
+  border: 0;
+  color: #ffffff;
+}
+
+.modalActions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @media (max-width: 760px) {
-  .filters,
-  .taskCard,
-  .twoColumns {
+  .toolbar,
+  .tareaCard {
+    align-items: stretch;
     flex-direction: column;
-    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
-  .taskCard {
-    align-items: flex-start;
+  .filters,
+  .tareaRight {
+    flex-direction: column;
+  }
+
+  .filters select,
+  .btnNueva,
+  .estadoSelect,
+  .tareaRight button {
+    width: 100%;
+  }
+
+  .twoColumns {
+    grid-template-columns: 1fr;
   }
 }

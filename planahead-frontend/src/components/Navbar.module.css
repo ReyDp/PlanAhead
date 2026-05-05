@@ -1,72 +1,80 @@
-.navbar {
+.nav {
   align-items: center;
   background: #ffffff;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
-  gap: 24px;
+  height: 60px;
   justify-content: space-between;
-  min-height: 64px;
-  padding: 0 32px;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .brand {
   color: #1a56db;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 800;
 }
 
 .links {
   display: flex;
-  flex: 1;
-  gap: 8px;
+  gap: 2rem;
 }
 
-.link,
-.activeLink {
-  border-radius: 8px;
-  color: #475569;
-  font-weight: 700;
-  padding: 9px 12px;
+.links a {
+  font-size: 0.95rem;
+  padding-bottom: 4px;
   text-decoration: none;
 }
 
-.activeLink {
-  background: #eaf1ff;
-  color: #1a56db;
+.link {
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  font-weight: 500;
 }
 
-.session {
+.activeLink {
+  border-bottom: 2px solid #1a56db;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.userArea {
   align-items: center;
-  color: #475569;
+  color: #1e293b;
   display: flex;
   font-weight: 700;
-  gap: 12px;
+  gap: 1rem;
 }
 
-.session button {
+.userArea button {
   background: #1a56db;
   border: 0;
   border-radius: 8px;
   color: #ffffff;
   cursor: pointer;
   font-weight: 700;
-  min-height: 38px;
+  min-height: 36px;
   padding: 0 14px;
 }
 
 @media (max-width: 760px) {
-  .navbar {
-    align-items: stretch;
+  .nav {
+    align-items: flex-start;
     flex-direction: column;
     gap: 12px;
-    padding: 16px;
+    height: auto;
+    padding: 14px 1rem;
   }
 
   .links {
     flex-wrap: wrap;
+    gap: 1rem;
   }
 
-  .session {
+  .userArea {
     justify-content: space-between;
+    width: 100%;
   }
 }

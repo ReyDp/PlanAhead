@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar.jsx';
 import SkeletonCard from '../components/SkeletonCard.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { apiFetch } from '../lib/api.js';
-import { calcularUrgencia, formatDate, toDateInputValue } from '../lib/dates.js';
+import { calcularUrgencia, toDateInputValue } from '../lib/dates.js';
 import layout from './pageLayout.module.css';
 import styles from './TareasPage.module.css';
 
@@ -15,6 +15,13 @@ const EMPTY_FORM = {
   prioridad: 'MEDIA',
   descripcion: '',
 };
+
+function formatearFecha(isoString) {
+  return new Date(isoString).toLocaleDateString('es-CO', {
+    day: 'numeric',
+    month: 'short',
+  });
+}
 
 function TareasPage() {
   const { token } = useContext(AuthContext);
@@ -80,6 +87,9 @@ function TareasPage() {
       }),
     [estado, materiaId, tareas]
   );
+
+  const hasInvalidDates =
+    form.fechaMeta && form.fechaLimite && new Date(form.fechaMeta) >= new Date(form.fechaLimite);
 
   function openCreateModal() {
     setEditingTask(null);
@@ -169,27 +179,29 @@ function TareasPage() {
             <h1>Tareas</h1>
             <p>Gestiona pendientes, fechas meta y prioridades.</p>
           </div>
-          <button className={styles.primaryButton} type="button" onClick={openCreateModal}>
-            + Nueva tarea
-          </button>
         </header>
 
-        <section className={styles.filters}>
-          <select value={estado} onChange={(event) => setEstado(event.target.value)}>
-            <option value="">Todos los estados</option>
-            <option value="PENDIENTE">Pendiente</option>
-            <option value="EN_PROGRESO">En progreso</option>
-            <option value="COMPLETADA">Completada</option>
-          </select>
-          <select value={materiaId} onChange={(event) => setMateriaId(event.target.value)}>
-            <option value="">Todas las materias</option>
-            {materias.map((materia) => (
-              <option key={materia.id} value={materia.id}>
-                {materia.nombre}
-              </option>
-            ))}
-          </select>
-        </section>
+        <div className={styles.toolbar}>
+          <div className={styles.filters}>
+            <select value={estado} onChange={(event) => setEstado(event.target.value)}>
+              <option value="">Todos los estados</option>
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="EN_PROGRESO">En progreso</option>
+              <option value="COMPLETADA">Completada</option>
+            </select>
+            <select value={materiaId} onChange={(event) => setMateriaId(event.target.value)}>
+              <option value="">Todas las materias</option>
+              {materias.map((materia) => (
+                <option key={materia.id} value={materia.id}>
+                  {materia.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button className={styles.btnNueva} type="button" onClick={openCreateModal}>
+            + Nueva tarea
+          </button>
+        </div>
 
         {isLoading && (
           <div className={styles.skeletonList}>
@@ -216,25 +228,34 @@ function TareasPage() {
             {filteredTasks.map((tarea) => {
               const { urgencia } = calcularUrgencia(tarea.fechaMeta);
               return (
-                <li className={styles.taskCard} key={tarea.id}>
-                  <div>
-                    <h2>{tarea.titulo}</h2>
-                    <p>
-                      <span style={{ backgroundColor: tarea.materia.color }} />
-                      {tarea.materia.nombre} · Meta {formatDate(tarea.fechaMeta)}
-                    </p>
+                <li className={styles.tareaCard} key={tarea.id}>
+                  <div className={styles.tareaLeft}>
+                    <span
+                      className={styles.materiaPoint}
+                      style={{ background: tarea.materia.color }}
+                    />
+                    <div>
+                      <p className={styles.tareaTitulo}>{tarea.titulo}</p>
+                      <p className={styles.tareaMeta}>
+                        Meta: {formatearFecha(tarea.fechaMeta)} · Límite:{' '}
+                        {formatearFecha(tarea.fechaLimite)}
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.taskActions}>
+                  <div className={styles.tareaRight}>
                     <span className={`${styles.badge} ${styles[urgencia]}`}>{urgencia}</span>
-                    <span className={styles.state}>{tarea.estado}</span>
+                    <select
+                      className={styles.estadoSelect}
+                      value={tarea.estado}
+                      onChange={() => advanceState(tarea)}
+                    >
+                      <option value="PENDIENTE">Pendiente</option>
+                      <option value="EN_PROGRESO">En progreso</option>
+                      <option value="COMPLETADA">Completada</option>
+                    </select>
                     <button type="button" onClick={() => openEditModal(tarea)}>
                       Editar
                     </button>
-                    {tarea.estado !== 'COMPLETADA' && (
-                      <button type="button" onClick={() => advanceState(tarea)}>
-                        Cambiar estado
-                      </button>
-                    )}
                   </div>
                 </li>
               );
@@ -264,11 +285,23 @@ function TareasPage() {
               <div className={styles.twoColumns}>
                 <label>
                   Fecha meta
-                  <input name="fechaMeta" type="date" value={form.fechaMeta} onChange={updateForm} required />
+                  <input
+                    name="fechaMeta"
+                    type="date"
+                    value={form.fechaMeta}
+                    onChange={updateForm}
+                    required
+                  />
                 </label>
                 <label>
                   Fecha limite
-                  <input name="fechaLimite" type="date" value={form.fechaLimite} onChange={updateForm} required />
+                  <input
+                    name="fechaLimite"
+                    type="date"
+                    value={form.fechaLimite}
+                    onChange={updateForm}
+                    required
+                  />
                 </label>
               </div>
               <label>
@@ -283,12 +316,17 @@ function TareasPage() {
                 Descripcion
                 <textarea name="descripcion" value={form.descripcion} onChange={updateForm} rows="4" />
               </label>
+              {hasInvalidDates && (
+                <p className={styles.modalError}>⚠ La fecha meta debe ser anterior a la fecha límite</p>
+              )}
               {formError && <p className={styles.formError}>{formError}</p>}
               <div className={styles.modalActions}>
                 <button type="button" onClick={() => setModalOpen(false)}>
                   Cancelar
                 </button>
-                <button type="submit">Guardar</button>
+                <button type="submit" disabled={hasInvalidDates}>
+                  Guardar
+                </button>
               </div>
             </form>
           </div>
