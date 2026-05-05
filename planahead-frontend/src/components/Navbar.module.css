@@ -1,0 +1,72 @@
+.navbar {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 32px;
+}
+
+.brand {
+  color: #1a56db;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.links {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+
+.link,
+.activeLink {
+  border-radius: 8px;
+  color: #475569;
+  font-weight: 700;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.activeLink {
+  background: #eaf1ff;
+  color: #1a56db;
+}
+
+.session {
+  align-items: center;
+  color: #475569;
+  display: flex;
+  font-weight: 700;
+  gap: 12px;
+}
+
+.session button {
+  background: #1a56db;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 0 14px;
+}
+
+@media (max-width: 760px) {
+  .navbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .links {
+    flex-wrap: wrap;
+  }
+
+  .session {
+    justify-content: space-between;
+  }
+}

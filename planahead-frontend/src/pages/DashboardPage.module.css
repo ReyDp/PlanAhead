@@ -1,0 +1,173 @@
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.section:last-child {
+  grid-column: 1 / -1;
+}
+
+.sectionHeader {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sectionHeader h2 {
+  color: #1e293b;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.sectionHeader span {
+  background: #eaf1ff;
+  border-radius: 999px;
+  color: #1a56db;
+  font-weight: 800;
+  min-width: 30px;
+  padding: 5px 9px;
+  text-align: center;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.alertItem,
+.taskItem {
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.alertItem h3,
+.taskItem h3 {
+  color: #1e293b;
+  font-size: 1rem;
+  margin: 0 0 6px;
+}
+
+.alertItem p,
+.taskItem p {
+  align-items: center;
+  color: #64748b;
+  display: flex;
+  gap: 7px;
+  margin: 0;
+}
+
+.subjectDot {
+  border-radius: 999px;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+
+.alertMeta {
+  align-items: flex-end;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.taskItem {
+  justify-content: flex-start;
+}
+
+.taskItem input {
+  accent-color: #1a56db;
+  height: 20px;
+  width: 20px;
+}
+
+.taskItem div {
+  flex: 1;
+}
+
+.urgency {
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.CRITICA {
+  background: #fee2e2;
+  color: #b42318;
+}
+
+.ALTA {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.MEDIA {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.BAJA {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.progressList {
+  display: grid;
+  gap: 16px;
+}
+
+.progressItem {
+  display: grid;
+  gap: 8px;
+}
+
+.progressText {
+  align-items: center;
+  color: #1e293b;
+  display: flex;
+  font-weight: 800;
+  justify-content: space-between;
+}
+
+.progressTrack {
+  background: #e2e8f0;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.progressBar {
+  border-radius: 999px;
+  height: 100%;
+  min-width: 3px;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section:last-child {
+    grid-column: auto;
+  }
+}
