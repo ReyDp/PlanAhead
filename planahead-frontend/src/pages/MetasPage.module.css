@@ -1,0 +1,51 @@
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.card span {
+  color: #1a56db;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  margin: 6px 0;
+}
+
+.card p,
+.card small {
+  color: #64748b;
+}
+
+.card p {
+  margin: 0;
+}
+
+.card strong {
+  color: #1e293b;
+  font-size: 1.8rem;
+}
+
+.track {
+  background: #e2e8f0;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.track div {
+  background: #1a56db;
+  height: 100%;
+}

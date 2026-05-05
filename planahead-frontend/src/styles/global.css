@@ -3,6 +3,7 @@
 }
 
 body {
+  background: #f8fafc;
   margin: 0;
   font-family:
     Inter,
@@ -12,10 +13,14 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  color: #172033;
+  color: #1e293b;
 }
 
 button,
 input {
   font: inherit;
+}
+
+a {
+  color: inherit;
 }
