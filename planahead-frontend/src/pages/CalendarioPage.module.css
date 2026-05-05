@@ -15,6 +15,11 @@
   padding: 0 12px;
 }
 
+.monthNav button:hover {
+  background: #f8fafc;
+  border-color: #1a56db;
+}
+
 .monthNav strong {
   color: #1e293b;
   min-width: 170px;
@@ -55,6 +60,13 @@
 .dayCell,
 .selectedCell {
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dayCell:hover {
+  background: #f8fafc;
 }
 
 .selectedCell {
@@ -86,6 +98,11 @@
   border-radius: 8px;
   margin-top: 20px;
   padding: 18px;
+  transition: box-shadow 0.2s ease;
+}
+
+.selectedPanel:hover {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
 }
 
 .selectedPanel h2 {

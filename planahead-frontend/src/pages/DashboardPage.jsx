@@ -32,6 +32,7 @@ function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [updatingTaskId, setUpdatingTaskId] = useState(null);
   const [completingTaskId, setCompletingTaskId] = useState(null);
 
@@ -84,6 +85,7 @@ function DashboardPage() {
     setUpdatingTaskId(taskId);
     setCompletingTaskId(taskId);
     setActionError('');
+    setSuccessMessage('');
 
     try {
       await new Promise((resolve) => {
@@ -103,6 +105,11 @@ function DashboardPage() {
         },
         token
       );
+
+      setSuccessMessage('Tarea completada ✓');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 2000);
     } catch (updateError) {
       setDashboard(previousDashboard);
       setActionError(updateError.message);
@@ -145,6 +152,7 @@ function DashboardPage() {
         )}
 
         {actionError && <p className={styles.inlineError}>{actionError}</p>}
+        {successMessage && <p className={styles.successToast}>{successMessage}</p>}
 
         {!isLoading && !error && dashboard && (
           <>

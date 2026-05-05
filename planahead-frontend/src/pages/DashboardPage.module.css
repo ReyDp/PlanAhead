@@ -96,6 +96,16 @@
   padding: 12px 14px;
 }
 
+.successToast {
+  background: #ecfdf5;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  color: #057a55;
+  font-weight: 800;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+}
+
 .successEmpty {
   background: #ecfdf5;
   border: 1px solid #057a55;
@@ -111,6 +121,13 @@
   border-radius: 8px;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
   padding: 20px;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.section:hover {
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
 }
 
 .section:last-child {
@@ -157,6 +174,13 @@
   justify-content: space-between;
   margin-bottom: 0.75rem;
   padding: 1rem;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.alertItem:hover {
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
 }
 
 .alertCRITICA {
@@ -225,6 +249,15 @@
   gap: 12px;
   justify-content: flex-start;
   padding: 14px;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.3s ease;
+}
+
+.taskItem:hover {
+  background: #fbfdff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
 }
 
 .taskItem input {
@@ -250,6 +283,10 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 2px 10px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .chipCritica {
@@ -280,6 +317,7 @@
 .progressItem {
   display: grid;
   gap: 8px;
+  min-height: 42px;
 }
 
 .progressHeader {
@@ -300,7 +338,9 @@
 .progressFill {
   border-radius: 999px;
   height: 100%;
-  transition: width 0.8s ease-in-out;
+  transition:
+    background-color 0.2s ease,
+    width 0.8s ease-in-out;
 }
 
 @media (max-width: 860px) {

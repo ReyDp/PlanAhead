@@ -32,6 +32,9 @@
   border-bottom: 2px solid transparent;
   color: #64748b;
   font-weight: 500;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .activeLink {
@@ -57,6 +60,10 @@
   font-weight: 700;
   min-height: 36px;
   padding: 0 14px;
+}
+
+.userArea button:hover {
+  background: #1649c0;
 }
 
 @media (max-width: 760px) {
