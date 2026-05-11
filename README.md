@@ -1,272 +1,472 @@
-# 🚀 **[PLANAHEAD]**
+# PlanAhead
 
-> Aplicación web progresiva (PWA) para la gestión académica con planificación anticipada, metas y alertas inteligentes.
+PlanAhead es una aplicacion web para gestion academica orientada a estudiantes universitarios. Permite organizar materias, tareas, metas y fechas importantes usando planificacion anticipada: cada tarea tiene una fecha limite oficial y una fecha meta personal para ayudar a entregar antes de tiempo.
 
----
+El proyecto esta dividido en dos aplicaciones:
 
-## 📌 **Descripción**
-
-**[PLANAHEAD]** es una plataforma diseñada para estudiantes universitarios que permite organizar tareas, exámenes y actividades académicas en un solo lugar.
-
-A diferencia de una agenda tradicional, el sistema introduce el concepto de **planificación anticipada**, permitiendo definir no solo una fecha límite, sino también una **fecha meta personal**, ayudando a evitar retrasos y mejorar la productividad.
+- `planahead-backend`: API REST con Node.js, Express, Prisma y SQLite.
+- `planahead-frontend`: aplicacion React con Vite, React Router y CSS Modules.
 
 ---
 
-## 🎯 **Objetivo**
+## Funcionalidades
 
-Facilitar la organización académica mediante herramientas que promuevan:
+### Autenticacion
 
-* Planificación efectiva del tiempo
-* Cumplimiento de tareas antes de su fecha límite
-* Visualización clara de prioridades
-* Seguimiento del progreso académico
+- Registro de usuarios.
+- Inicio de sesion con email y password.
+- Autenticacion protegida con JWT.
+- Token guardado en `localStorage`.
+- Rutas privadas en el frontend.
+- Logout desde la barra de navegacion.
+
+### Dashboard academico
+
+- Resumen del usuario autenticado.
+- Conteo de tareas pendientes.
+- Conteo de tareas criticas y urgentes.
+- Alertas de tareas en estado critico o alto.
+- Lista de tareas del dia ordenadas por urgencia.
+- Marcado rapido de tareas como completadas.
+- Feedback visual al completar una tarea.
+- Progreso por materia con barras visuales.
+
+### Tareas
+
+- Listado de tareas del usuario.
+- Creacion de tareas.
+- Edicion de tareas.
+- Eliminacion disponible desde API.
+- Cambio de estado de tareas.
+- Filtros por estado.
+- Filtros por materia.
+- Modal de crear/editar tarea.
+- Validacion de fechas: `fechaMeta` debe ser anterior a `fechaLimite`.
+- Calculo visual de urgencia:
+  - `CRITICA`: meta vencida.
+  - `ALTA`: vence hoy o manana.
+  - `MEDIA`: vence pronto.
+  - `BAJA`: sin urgencia inmediata.
+
+### Materias
+
+- Listado de materias del usuario.
+- Creacion de materias desde API.
+- Colores por materia para identificacion visual.
+- Conteo de tareas asociadas.
+
+### Calendario
+
+- Vista mensual.
+- Navegacion por mes anterior y siguiente.
+- Agrupacion de tareas por dia.
+- Puntos de color por materia dentro de cada fecha.
+- Detalle de tareas al seleccionar un dia.
+- Consulta por `mes` y `anio`.
+
+### Metas
+
+- Listado de metas academicas.
+- Creacion de metas desde API.
+- Progreso de metas basado en tareas creadas dentro del rango de fechas.
+- Porcentaje de tareas completadas por meta.
+- Tipos de meta:
+  - `DIARIA`
+  - `SEMANAL`
+  - `PERSONALIZADA`
+
+### Experiencia de usuario
+
+- Login profesional en dos columnas.
+- Navegacion sticky.
+- Estados de loading con skeletons.
+- Estados vacios.
+- Estados de error con reintento.
+- Transiciones suaves.
+- Hover en botones y cards.
+- Focus accesible en inputs.
+- Scroll suave.
+- Diseno responsive para escritorio y movil.
 
 ---
 
-## 🧠 **Características principales**
-
-* 📌 Gestión de tareas con doble fecha:
-
-  * Fecha límite (oficial)
-  * Fecha meta (personal)
-
-* 🔔 Alertas inteligentes:
-
-  * Identificación de tareas críticas
-  * Recordatorios basados en proximidad de fechas
-
-* 📊 Dashboard académico:
-
-  * Resumen del día
-  * Tareas prioritarias
-  * Estado general del usuario
-
-* 📅 Calendario:
-
-  * Visualización mensual de actividades
-
-* 📈 Progreso académico:
-
-  * Seguimiento por materias
-  * Tareas completadas vs pendientes
-
----
-
-## 🏗️ **Arquitectura del sistema**
-
-```text
-Frontend (React PWA)
-        │
-        ▼
-Backend (Node.js + Express)
-        │
-        ▼
-Base de datos (SQLite + Prisma ORM)
-```
-
----
-
-## ⚙️ **Tecnologías utilizadas**
+## Tecnologias y frameworks utilizados
 
 ### Frontend
 
-* React
-* HTML5 / CSS3
-* JavaScript (ES6+)
+- React 18
+- Vite
+- React Router DOM v6
+- CSS Modules
+- CSS3
+- HTML5
+- JavaScript ES Modules
+- Fetch API nativa
+- LocalStorage
 
 ### Backend
 
-* Node.js
-* Express.js
+- Node.js
+- Express.js
+- Prisma ORM
+- SQLite
+- JSON Web Tokens con `jsonwebtoken`
+- `bcryptjs` para hash de contrasenas
+- `dotenv` para variables de entorno
+- `cors`
+- Nodemon para desarrollo
 
 ### Base de datos
 
-* SQLite
-* Prisma ORM
+- SQLite
+- Prisma Client
+- Prisma Schema
+- Prisma Migrations
+- Seed de datos demo
 
-### Otros
+### Herramientas de desarrollo
 
-* JWT (autenticación)
-* PWA (manifest + service worker)
+- npm
+- PowerShell
+- Git
+- Vite Dev Server
+- Proxy de Vite para API:
+  - `/api` -> `http://localhost:3000`
 
 ---
 
-## 📂 **Estructura del proyecto**
+## Arquitectura
 
-```bash
-project/
-│
-├── backend/
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── routes/
-│   │   ├── middleware/
-│   │   └── utils/
-│   ├── prisma/
-│   │   ├── schema.prisma
-│   │   └── seed.js
-│   └── app.js
-│
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   └── package.json
-│
-└── README.md
+```text
+planahead-frontend (React + Vite)
+        |
+        | HTTP / Fetch / API REST
+        v
+planahead-backend (Express + Prisma)
+        |
+        v
+SQLite
+```
+
+El frontend consume la API usando rutas `/api/...`. En desarrollo, Vite redirige esas rutas al backend con proxy para evitar problemas de CORS.
+
+---
+
+## Estructura del proyecto
+
+```text
+PlanAhead/
+|
+|-- planahead-backend/
+|   |-- prisma/
+|   |   |-- schema.prisma
+|   |   |-- seed.js
+|   |   `-- migrations/
+|   |-- src/
+|   |   |-- index.js
+|   |   |-- lib/
+|   |   |   `-- prisma.js
+|   |   |-- middleware/
+|   |   |   `-- auth.js
+|   |   `-- routes/
+|   |       |-- auth.js
+|   |       |-- calendario.js
+|   |       |-- dashboard.js
+|   |       |-- materias.js
+|   |       |-- metas.js
+|   |       `-- tareas.js
+|   |-- package.json
+|   `-- .env
+|
+|-- planahead-frontend/
+|   |-- index.html
+|   |-- vite.config.js
+|   |-- src/
+|   |   |-- main.jsx
+|   |   |-- App.jsx
+|   |   |-- context/
+|   |   |   `-- AuthContext.jsx
+|   |   |-- components/
+|   |   |   |-- Navbar.jsx
+|   |   |   |-- PrivateRoute.jsx
+|   |   |   `-- SkeletonCard.jsx
+|   |   |-- lib/
+|   |   |   |-- api.js
+|   |   |   `-- dates.js
+|   |   |-- pages/
+|   |   |   |-- LoginPage.jsx
+|   |   |   |-- DashboardPage.jsx
+|   |   |   |-- TareasPage.jsx
+|   |   |   |-- CalendarioPage.jsx
+|   |   |   `-- MetasPage.jsx
+|   |   `-- styles/
+|   |       `-- global.css
+|   `-- package.json
+|
+`-- README.md
 ```
 
 ---
 
-## 🚀 **Instalación y ejecución**
+## Instalacion
 
 ### 1. Clonar el repositorio
 
 ```bash
-[git clone https://github.com/ReyDp/PlanAhead.git]
+git clone https://github.com/ReyDp/PlanAhead.git
 cd PlanAhead
 ```
 
----
+### 2. Instalar dependencias del backend
 
-### 2. Backend
-
-```bash
-cd backend
-npm install
-cp .env.example .env
+```powershell
+cd planahead-backend
+npm.cmd install
 ```
 
-Configura las variables de entorno en `.env`:
+### 3. Instalar dependencias del frontend
+
+```powershell
+cd ..\planahead-frontend
+npm.cmd install
+```
+
+---
+
+## Variables de entorno del backend
+
+El archivo `planahead-backend/.env` debe tener:
 
 ```env
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="tu_secreto"
+DATABASE_URL="file:./prisma/dev.db"
+JWT_SECRET="secreto_local_desarrollo"
+JWT_EXPIRES_IN="7d"
+PORT=3000
+NODE_ENV=development
 ```
 
 ---
 
-### 3. Base de datos
+## Base de datos y datos demo
 
-```bash
-npx prisma migrate dev
-npx prisma db seed
+Para cargar los datos de demostracion:
+
+```powershell
+cd D:\UDC\Feria\PlanAhead\planahead-backend
+npm.cmd run db:seed
+```
+
+Credenciales demo:
+
+```text
+Email: carlos@demo.com
+Password: demo1234
+```
+
+El seed crea:
+
+- Usuario demo.
+- 5 materias.
+- 9 tareas distribuidas por urgencia.
+- 2 metas academicas.
+- Fechas relativas a la fecha actual para que la demo siempre este vigente.
+
+---
+
+## Ejecucion en desarrollo
+
+Se deben ejecutar backend y frontend en terminales separadas.
+
+### Backend
+
+```powershell
+cd D:\UDC\Feria\PlanAhead\planahead-backend
+npm.cmd run dev
+```
+
+Servidor:
+
+```text
+http://localhost:3000
+```
+
+### Frontend
+
+```powershell
+cd D:\UDC\Feria\PlanAhead\planahead-frontend
+npm.cmd run dev
+```
+
+Aplicacion:
+
+```text
+http://localhost:5173
+```
+
+Si el puerto `3000` esta ocupado, significa que probablemente el backend ya esta corriendo. Puedes verificarlo con:
+
+```powershell
+netstat -ano | findstr :3000
 ```
 
 ---
 
-### 4. Ejecutar servidor
+## Scripts disponibles
 
-```bash
-npm run dev
-```
-
----
-
-### 5. Frontend
-
-```bash
-cd ../frontend
-npm install
-npm start
-```
-
----
-
-## 🔐 **Autenticación**
-
-El sistema utiliza **JWT (JSON Web Tokens)** para la autenticación:
-
-* Login con email y contraseña
-* Token almacenado en el cliente
-* Validación en cada request protegido
-
----
-
-## 📡 **API principal**
-
-### Auth
-
-* `POST /api/auth/register`
-* `POST /api/auth/login`
-
-### Tareas
-
-* `GET /api/tareas`
-* `POST /api/tareas`
-* `PUT /api/tareas/:id`
-* `DELETE /api/tareas/:id`
-
-### Dashboard
-
-* `GET /api/dashboard`
-
----
-
-## 📊 **Ejemplo de respuesta del dashboard**
+### Backend
 
 ```json
 {
-  "alertas": [],
-  "tareas": {
-    "criticas": [],
-    "alta": [],
-    "media": [],
-    "baja": []
-  },
-  "progreso": []
+  "dev": "nodemon src/index.js",
+  "db:migrate": "prisma migrate dev --name init",
+  "db:seed": "node prisma/seed.js",
+  "db:reset": "prisma migrate reset --force && node prisma/seed.js"
+}
+```
+
+### Frontend
+
+```json
+{
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
 }
 ```
 
 ---
 
-## 🧪 **Datos de prueba**
+## API REST
 
-Al ejecutar el seed se crea:
+Todas las rutas protegidas requieren:
 
-* Usuario demo
-* Tareas con distintos niveles de urgencia
+```http
+Authorization: Bearer <token>
+```
 
-Esto permite visualizar el dashboard inmediatamente.
+### Auth
 
----
+- `POST /api/auth/register`
+- `POST /api/auth/login`
 
-## 📈 **Estado del proyecto**
+### Materias
 
-🚧 En desarrollo — MVP enfocado en:
+- `GET /api/materias`
+- `POST /api/materias`
 
-* Gestión de tareas
-* Alertas inteligentes
-* Dashboard funcional
+### Tareas
 
----
+- `GET /api/tareas`
+- `POST /api/tareas`
+- `PUT /api/tareas/:id`
+- `DELETE /api/tareas/:id`
 
-## 🔮 **Mejoras futuras**
+### Dashboard
 
-* Aplicación móvil nativa
-* Notificaciones push
-* Asistente académico
-* Estadísticas avanzadas
-* Integración con calendarios externos
+- `GET /api/dashboard`
 
----
+### Calendario
 
-## 👨‍💻 **Autor**
+- `GET /api/calendario?mes=5&anio=2026`
 
-Desarrollado por: **[REYNALDO DURA PERTUZ]**
+### Metas
 
----
-
-## 📄 **Licencia**
-
-Este proyecto está bajo la licencia MIT.
+- `GET /api/metas`
+- `POST /api/metas`
+- `GET /api/metas/progreso`
 
 ---
 
-## ⭐ **Notas finales**
+## Modelos principales
 
-Este proyecto no busca ser solo una agenda digital, sino una herramienta que ayude a los estudiantes a:
+### Usuario
 
-> **planificar mejor, reducir el estrés y mejorar su rendimiento académico.**
+- `id`
+- `nombre`
+- `email`
+- `password`
+- `carrera`
+- `semestre`
+
+### Materia
+
+- `id`
+- `nombre`
+- `color`
+- `usuarioId`
+
+### Tarea
+
+- `id`
+- `titulo`
+- `descripcion`
+- `fechaLimite`
+- `fechaMeta`
+- `prioridad`
+- `estado`
+- `usuarioId`
+- `materiaId`
+
+### Meta
+
+- `id`
+- `titulo`
+- `tipo`
+- `fechaInicio`
+- `fechaFin`
+- `usuarioId`
 
 ---
+
+## Flujo de uso para demo
+
+1. Ejecutar backend.
+2. Ejecutar frontend.
+3. Abrir `http://localhost:5173`.
+4. Iniciar sesion con:
+
+```text
+carlos@demo.com
+demo1234
+```
+
+5. Mostrar:
+   - Dashboard con alertas y progreso.
+   - Tareas filtrables.
+   - Modal para crear/editar tareas.
+   - Calendario mensual.
+   - Metas con progreso.
+
+---
+
+## Estado del proyecto
+
+MVP funcional para feria tecnologica. Incluye autenticacion, dashboard, gestion de tareas, calendario, metas, progreso por materia y datos demo.
+
+---
+
+## Mejoras futuras
+
+- Notificaciones push.
+- Recordatorios por correo.
+- Sincronizacion con Google Calendar.
+- Estadisticas avanzadas por semestre.
+- Vista por semana.
+- Roles de usuario.
+- Version movil nativa.
+- PWA completa con modo offline.
+
+---
+
+## Autor
+
+Desarrollado por 
+**Reynaldo Jose Duran Pertuz**.
+**Ana Carolina Sierra**.
+**Sergio Luis Sanchez Barrios**.
+
+---
+
+## Licencia
+
+Proyecto bajo licencia MIT.
