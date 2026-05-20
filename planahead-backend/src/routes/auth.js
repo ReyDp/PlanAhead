@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
 
 const router = express.Router();
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function signToken(usuario) {
   return jwt.sign(
@@ -15,10 +16,30 @@ function signToken(usuario) {
 
 router.post('/register', async (req, res, next) => {
   try {
-    const { nombre, email, password, carrera, semestre } = req.body;
+    const nombre = req.body.nombre ? req.body.nombre.trim() : '';
+    const email = req.body.email ? req.body.email.trim().toLowerCase() : '';
+    const password = req.body.password || '';
+    const carrera = req.body.carrera ? req.body.carrera.trim() : undefined;
+    const semestre = req.body.semestre;
 
-    if (!nombre || !email || !password) {
-      return res.status(400).json({ error: 'nombre, email y password son requeridos' });
+    if (!nombre) {
+      return res.status(400).json({ error: 'El nombre es requerido' });
+    }
+
+    if (!email) {
+      return res.status(400).json({ error: 'El email es requerido' });
+    }
+
+    if (!EMAIL_REGEX.test(email)) {
+      return res.status(400).json({ error: 'Ingresa un email valido' });
+    }
+
+    if (!password) {
+      return res.status(400).json({ error: 'El password es requerido' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'El password debe tener al menos 6 caracteres' });
     }
 
     const existingUser = await prisma.usuario.findUnique({ where: { email } });
@@ -56,7 +77,8 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const email = req.body.email ? req.body.email.trim().toLowerCase() : '';
+    const password = req.body.password || '';
 
     if (!email || !password) {
       return res.status(401).json({ error: 'Credenciales inválidas' });

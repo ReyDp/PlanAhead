@@ -8,6 +8,34 @@ const MODES = {
   REGISTER: 'register',
 };
 
+function validateForm(form, isRegisterMode) {
+  const nombre = form.nombre.trim();
+  const email = form.email.trim();
+  const password = form.password;
+
+  if (isRegisterMode && !nombre) {
+    return 'Ingresa tu nombre para crear la cuenta';
+  }
+
+  if (!email) {
+    return 'Ingresa tu email';
+  }
+
+  if (!email.includes('@')) {
+    return 'Ingresa un email valido, por ejemplo ana@email.com';
+  }
+
+  if (!password) {
+    return 'Ingresa tu password';
+  }
+
+  if (isRegisterMode && password.length < 6) {
+    return 'El password debe tener al menos 6 caracteres';
+  }
+
+  return '';
+}
+
 function LoginPage() {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useContext(AuthContext);
@@ -41,17 +69,25 @@ function LoginPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
+
+    const validationError = validateForm(form, isRegisterMode);
+
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setIsSubmitting(true);
 
     const endpoint = isRegisterMode ? '/api/auth/register' : '/api/auth/login';
     const payload = isRegisterMode
       ? {
-          nombre: form.nombre,
-          email: form.email,
+          nombre: form.nombre.trim(),
+          email: form.email.trim(),
           password: form.password,
         }
       : {
-          email: form.email,
+          email: form.email.trim(),
           password: form.password,
         };
 
@@ -124,7 +160,7 @@ function LoginPage() {
             <strong>Demo:</strong> carlos@demo.com / demo1234
           </div>
 
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit} noValidate>
             {isRegisterMode && (
               <label className={styles.field}>
                 Nombre
@@ -134,7 +170,7 @@ function LoginPage() {
                   value={form.nombre}
                   onChange={updateField}
                   autoComplete="name"
-                  required
+                  aria-invalid={Boolean(error && isRegisterMode && !form.nombre.trim())}
                 />
               </label>
             )}
@@ -147,7 +183,7 @@ function LoginPage() {
                 value={form.email}
                 onChange={updateField}
                 autoComplete="email"
-                required
+                aria-invalid={Boolean(error && (!form.email.trim() || !form.email.includes('@')))}
               />
             </label>
 
@@ -159,11 +195,15 @@ function LoginPage() {
                 value={form.password}
                 onChange={updateField}
                 autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
-                required
+                aria-invalid={Boolean(error && !form.password)}
               />
             </label>
 
-            {error && <p className={styles.error}>{error}</p>}
+            {error && (
+              <p className={styles.error} role="alert">
+                {error}
+              </p>
+            )}
 
             <button className={styles.submitBtn} type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Ingresando...' : isRegisterMode ? 'Crear cuenta' : 'Iniciar sesión'}
