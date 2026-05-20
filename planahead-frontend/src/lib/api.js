@@ -1,4 +1,6 @@
 export async function apiFetch(endpoint, options = {}, token) {
+  const BASE = import.meta.env.VITE_API_URL || '';
+  const url = `${BASE}${endpoint}`;
   const headers = {
     'Content-Type': 'application/json',
     ...(options.headers || {}),
@@ -8,7 +10,7 @@ export async function apiFetch(endpoint, options = {}, token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(endpoint, {
+  const response = await fetch(url, {
     ...options,
     headers,
   });
