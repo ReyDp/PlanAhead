@@ -11,7 +11,12 @@ const metasRoutes = require('./routes/metas');
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -29,9 +34,9 @@ app.use((err, req, res, next) => {
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Servidor corriendo en puerto ${port}`);
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor en puerto ${PORT}`);
   });
 }
 

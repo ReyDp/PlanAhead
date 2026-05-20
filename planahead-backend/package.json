@@ -5,10 +5,11 @@
   "main": "src/index.js",
   "type": "commonjs",
   "scripts": {
+    "build": "prisma generate",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "db:migrate": "prisma migrate dev --name init",
-    "db:seed": "node prisma/seed.js",
-    "db:reset": "prisma migrate reset --force && node prisma/seed.js"
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:seed": "node prisma/seed.js"
   },
   "keywords": [],
   "author": "",
