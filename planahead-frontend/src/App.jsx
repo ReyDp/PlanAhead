@@ -3,6 +3,7 @@ import PrivateRoute from './components/PrivateRoute.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import CalendarioPage from './pages/CalendarioPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
+import MateriasPage from './pages/MateriasPage.jsx';
 import MetasPage from './pages/MetasPage.jsx';
 import TareasPage from './pages/TareasPage.jsx';
 
@@ -13,6 +14,7 @@ function App() {
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/tareas" element={<TareasPage />} />
+        <Route path="/materias" element={<MateriasPage />} />
         <Route path="/calendario" element={<CalendarioPage />} />
         <Route path="/metas" element={<MetasPage />} />
       </Route>

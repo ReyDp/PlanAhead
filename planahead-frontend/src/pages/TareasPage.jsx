@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SkeletonCard from '../components/SkeletonCard.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
@@ -90,6 +91,8 @@ function TareasPage() {
 
   const hasInvalidDates =
     form.fechaMeta && form.fechaLimite && new Date(form.fechaMeta) >= new Date(form.fechaLimite);
+  const sinMaterias = materias.length === 0;
+  const formIncompleto = !form.titulo.trim() || !form.materiaId || !form.fechaMeta || !form.fechaLimite;
 
   function openCreateModal() {
     setEditingTask(null);
@@ -120,6 +123,11 @@ function TareasPage() {
   async function saveTask(event) {
     event.preventDefault();
     setFormError('');
+
+    if (sinMaterias) {
+      setFormError('Necesitas al menos una materia para crear tareas.');
+      return;
+    }
 
     if (new Date(form.fechaMeta) >= new Date(form.fechaLimite)) {
       setFormError('La fecha meta debe ser anterior a la fecha limite.');
@@ -273,8 +281,20 @@ function TareasPage() {
               </label>
               <label>
                 Materia
-                <select name="materiaId" value={form.materiaId} onChange={updateForm} required>
-                  <option value="">Selecciona una materia</option>
+                <select
+                  disabled={sinMaterias}
+                  name="materiaId"
+                  value={form.materiaId}
+                  onChange={updateForm}
+                  required
+                >
+                  {sinMaterias ? (
+                    <option value="" disabled>
+                      — Sin materias disponibles —
+                    </option>
+                  ) : (
+                    <option value="">Selecciona una materia</option>
+                  )}
                   {materias.map((materia) => (
                     <option key={materia.id} value={materia.id}>
                       {materia.nombre}
@@ -320,11 +340,18 @@ function TareasPage() {
                 <p className={styles.modalError}>⚠ La fecha meta debe ser anterior a la fecha límite</p>
               )}
               {formError && <p className={styles.formError}>{formError}</p>}
+              {sinMaterias && (
+                <div className={styles.sinMaterias}>
+                  <span>⚠</span>
+                  <span>Necesitas al menos una materia para crear tareas.</span>
+                  <Link to="/materias">Crear materia →</Link>
+                </div>
+              )}
               <div className={styles.modalActions}>
                 <button type="button" onClick={() => setModalOpen(false)}>
                   Cancelar
                 </button>
-                <button type="submit" disabled={hasInvalidDates}>
+                <button type="submit" disabled={formIncompleto || hasInvalidDates || sinMaterias}>
                   Guardar
                 </button>
               </div>

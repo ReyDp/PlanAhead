@@ -256,6 +256,26 @@
   padding: 10px 12px;
 }
 
+.sinMaterias {
+  align-items: center;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  color: #92400e;
+  display: flex;
+  font-size: 0.875rem;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.sinMaterias a {
+  color: #1a56db;
+  font-weight: 600;
+  margin-left: auto;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 .modalActions {
   display: flex;
   gap: 10px;

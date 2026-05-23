@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import SkeletonCard from '../components/SkeletonCard.jsx';
 import { AuthContext } from '../context/AuthContext.jsx';
@@ -29,6 +30,7 @@ function getMetaText(diasAMeta) {
 function DashboardPage() {
   const { token } = useContext(AuthContext);
   const [dashboard, setDashboard] = useState(null);
+  const [materias, setMaterias] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
@@ -42,8 +44,12 @@ function DashboardPage() {
     setIsLoading(true);
 
     try {
-      const data = await apiFetch('/api/dashboard', {}, token);
-      setDashboard(data);
+      const [dashboardData, materiasData] = await Promise.all([
+        apiFetch('/api/dashboard', {}, token),
+        apiFetch('/api/materias', {}, token),
+      ]);
+      setDashboard(dashboardData);
+      setMaterias(materiasData);
     } catch (loadError) {
       setError(loadError.message);
     } finally {
@@ -56,10 +62,14 @@ function DashboardPage() {
 
     async function load() {
       try {
-        const data = await apiFetch('/api/dashboard', {}, token);
+        const [dashboardData, materiasData] = await Promise.all([
+          apiFetch('/api/dashboard', {}, token),
+          apiFetch('/api/materias', {}, token),
+        ]);
 
         if (isMounted) {
-          setDashboard(data);
+          setDashboard(dashboardData);
+          setMaterias(materiasData);
         }
       } catch (loadError) {
         if (isMounted) {
@@ -119,6 +129,8 @@ function DashboardPage() {
     }
   }
 
+  const mostrarOnboarding = materias.length === 0 && !isLoading;
+
   return (
     <div className={layout.page}>
       <Navbar />
@@ -176,6 +188,22 @@ function DashboardPage() {
                 </span>
               </div>
             </div>
+
+            {mostrarOnboarding && (
+              <div className={styles.onboardingBanner}>
+                <div className={styles.onboardingIcon}>🎓</div>
+                <div className={styles.onboardingText}>
+                  <strong>¡Bienvenido a PlanAhead!</strong>
+                  <p>
+                    Para empezar, crea tus materias del semestre. Luego podrás agregar tareas y ver tus prioridades
+                    aquí.
+                  </p>
+                </div>
+                <Link to="/materias" className={styles.onboardingCta}>
+                  Crear mis materias →
+                </Link>
+              </div>
+            )}
 
             <div className={styles.grid}>
               <section className={styles.section}>

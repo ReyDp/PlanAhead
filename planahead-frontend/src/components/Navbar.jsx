@@ -6,6 +6,7 @@ import styles from './Navbar.module.css';
 const LINKS = [
   { to: '/', label: 'Dashboard' },
   { to: '/tareas', label: 'Tareas' },
+  { to: '/materias', label: 'Materias' },
   { to: '/calendario', label: 'Calendario' },
   { to: '/metas', label: 'Metas' },
 ];
