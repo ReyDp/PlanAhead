@@ -7,10 +7,8 @@ module.exports = defineConfig({
     setupFiles: ['./tests/setup.js'],
     testTimeout: 15000,
     hookTimeout: 15000,
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    pool: 'forks',
+    fileParallelism: false,
+    maxWorkers: 1,
   },
 });
