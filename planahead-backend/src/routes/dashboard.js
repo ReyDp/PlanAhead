@@ -1,5 +1,6 @@
 const express = require('express');
 const prisma = require('../lib/prisma');
+const { calcularUrgencia, diasEntre } = require('../lib/urgencia');
 const verifyToken = require('../middleware/auth');
 
 const router = express.Router();
@@ -7,27 +8,6 @@ const router = express.Router();
 const ORDEN_URGENCIA = { CRITICA: 0, ALTA: 1, MEDIA: 2, BAJA: 3 };
 
 router.use(verifyToken);
-
-function diasEntre(fecha1, fecha2) {
-  const diff = fecha2 - fecha1;
-  return Math.ceil(diff / (1000 * 60 * 60 * 24));
-}
-
-function calcularUrgencia(diasAMeta) {
-  if (diasAMeta < 0) {
-    return 'CRITICA';
-  }
-
-  if (diasAMeta <= 1) {
-    return 'ALTA';
-  }
-
-  if (diasAMeta <= 3) {
-    return 'MEDIA';
-  }
-
-  return 'BAJA';
-}
 
 function selectMateria() {
   return {
@@ -75,7 +55,7 @@ router.get('/', async (req, res, next) => {
     const tareasConUrgencia = tareasPendientes.map((tarea) => {
       const diasAMeta = diasEntre(fechaHoy, tarea.fechaMeta);
       const diasALimite = diasEntre(fechaHoy, tarea.fechaLimite);
-      const urgencia = calcularUrgencia(diasAMeta);
+      const urgencia = calcularUrgencia(tarea.fechaMeta, fechaHoy);
 
       return {
         ...tarea,
