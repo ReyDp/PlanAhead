@@ -1,0 +1,8 @@
+planahead-backend/node_modules/
+planahead-frontend/node_modules/
+planahead-backend/coverage/
+planahead-frontend/coverage/
+planahead-backend/.env.test
+planahead-backend/tests/*.db
+planahead-backend/tests/*.db-journal
+planahead-backend/tests/test.db
